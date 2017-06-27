@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Farmers Markets</title>
+    
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRNZ6Acf-xdf9ORzYJ5vzmTwI6RPUqrRY">
+    </script>    
+ 
+</head>
+<body onload="">
+    <div class="container-fluid">
+        <h1>Find Farmers Markets in your Area!</h1>
+        <form >
+            <label for="zip">Search By Zip Code</label>
+            <input id="zip" name="zip" type="text">
+            <button class="btn btn-primary" onclick="getResults">Search</button>
+        </form>
+        <div id="map_canvas" style="width:500px; height:400px; float:left;"></div>
+    </div>
+    
+    
+    
+    <script type="application/javascript">
+        var markets = [];
+        
+        
+        function getResults() {
+        var zip = parseInt(document.getElementById("zip").valueOf());
+        console.log(zip);
+        // or
+        // function getResults(lat, lng) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            // submit a get request to the restful service zipSearch or locSearch.
+            url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip,
+            // or
+            // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
+            dataType: 'jsonp',
+            jsonpCallback: 'searchResultsHandler'
+        });
+        }
+        //iterate through the JSON result object.
+        function searchResultsHandler(searchResults) {
+            // console.table(searchResults);
+            for (var key in searchResults) {
+                alert(key);
+                var results = searchResults[key];
+                for (var i = 0; i < results.length; i++) {
+
+                    var result = results[i];
+                    for (var key in result) {
+                        //only do an alert on the first search result
+                        if (i == 0) {
+                            alert(result[key]);
+                        }
+                        if(key == 'id'){
+                            // Lets Grab the id value
+                            console.log('We found this id:' + result[key]);
+
+                        }
+
+                        console.log(key);
+                        console.log(result[key]);
+
+                    }
+                    console.log(result);
+                    markets.push(result);
+                }
+            }
+            console.log(markets);
+        }    
+
+        function getDetails(id) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                // submit a get request to the restful service mktDetail.
+                url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
+                dataType: 'jsonp',
+                jsonpCallback: 'detailResultHandler'
+            });
+        }
+        //iterate through the JSON result object.
+        function detailResultHandler(detailResults) {
+            for (var key in detailResults) {
+                alert(key);
+                var results = detailResults[key];
+                alert(results['GoogleLink']);
+            }
+        }
+      
+      
+    </script>
+    
+    
+</body>
+
+</html>
