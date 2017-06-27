@@ -8,9 +8,7 @@
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script
-            src="https://code.jquery.com/jquery-3.2.1.js"
-            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-            crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     
@@ -22,11 +20,12 @@
 <body onload="">
     <div class="container-fluid">
         <h1>Find Farmers Markets in your Area!</h1>
-        <form >
+        <form>
             <label for="zip">Search By Zip Code</label>
-            <input id="zip" name="zip" type="text">
-            <button class="btn btn-primary" onclick="getResults">Search</button>
+            <input id="zip" name="zip-code" type="number" value="">
+
         </form>
+        <button class="btn btn-primary" id="search-submit">Search</button>
         <div id="map_canvas" style="width:500px; height:400px; float:left;"></div>
     </div>
     
@@ -34,11 +33,17 @@
     
     <script type="application/javascript">
         var markets = [];
+        $("#search-submit").click(function () {
+           getResults($("#zip").val());
+        });
+
+        function testClick(zippy){
+            console.log(zippy);
+        }
         
-        
-        function getResults() {
-        var zip = parseInt(document.getElementById("zip").valueOf());
-        console.log(zip);
+        function getResults(zip) {
+
+
         // or
         // function getResults(lat, lng) {
         $.ajax({
