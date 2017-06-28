@@ -42,8 +42,6 @@
         }
         
         function getResults(zip) {
-
-
         // or
         // function getResults(lat, lng) {
         $.ajax({
@@ -57,28 +55,43 @@
             jsonpCallback: 'searchResultsHandler'
         });
         }
+        function getResultsLoc(lat, lng) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            // submit a get request to the restful service zipSearch or locSearch.
+            url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
+            dataType: 'jsonp',
+            jsonpCallback: 'searchResultsHandler'
+        });
+        }
         //iterate through the JSON result object.
         function searchResultsHandler(searchResults) {
             // console.table(searchResults);
+            // The model is an object with 2 attributes an id and a string that contains mileage and market name.
             for (var key in searchResults) {
                 alert(key);
                 var results = searchResults[key];
                 for (var i = 0; i < results.length; i++) {
-
+                    console.log('Index:' + i);
                     var result = results[i];
                     for (var key in result) {
-                        //only do an alert on the first search result
-                        if (i == 0) {
-                            alert(result[key]);
-                        }
-                        if(key == 'id'){
-                            // Lets Grab the id value
-                            console.log('We found this id:' + result[key]);
+                        //  I need to write a method to break off the mileage.
+                        if(key == 'marketname'){
+                            console.log(result[key]);
+                            //  Break Off the first part as distance
+                            var distDelim = result[key].search(/\./);
+                            console.log('. at ' + distDelim);
+                            var distance = parseFloat(result[key].substr(0, distDelim + 2));
 
+                            console.log('Distance = ' + distance);
                         }
 
-                        console.log(key);
-                        console.log(result[key]);
+
+
+
+                        console.log('Key: ' + key);
+                        console.log('Attribute: ' + result[key]);
 
                     }
                     console.log(result);
