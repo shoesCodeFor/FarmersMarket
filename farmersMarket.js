@@ -7,10 +7,14 @@
  */
 
 var markets = [];
+const newBullet = document.createElement('li');
+const marketUL = document.getElementById('marketDetails');
+
 $("#search-submit").click(function () {
     marketsByZip($("#zip").val());
     console.log(markets);
 });
+
 
 /**
  * @param zipCode = 5 digit US Postal Zip Code
@@ -42,6 +46,7 @@ function marketsFilter(json_array){
     for(var instance in json_array){
         var j = 0;
         var marketObject = json_array[instance];
+        var listItem = newBullet;
         // console.table(marketObject);
         for(let i = 0; i < marketObject.length; i++){
             var marketDetail = marketObject[i];
@@ -53,19 +58,22 @@ function marketsFilter(json_array){
                     var delimPos = marketDetail[key].search(/\./);
                     var distInMI = parseFloat(marketDetail[key].substr(0, delimPos + 2));
 
-                    var marketName = marketDetail[key].substr(delimPos + 3, -1);
+                    var marketName = marketDetail[key].substr(delimPos + 3);
                     console.log('Market Name: ' + marketName);
                     console.log(distInMI);
                     console.log(marketDetail[key]);
+                    listItem.innerHTML += ' Name: ' + marketName + '<br>Dist (mi):' + distInMI + '<br>';
                 }
                 else{
                     var marketID = marketDetail[key];
                     console.log('Market ID: ' + marketID);
+                    listItem.innerHTML += '<br>ID: ' + marketID + '<br>';
+
                 }
             }
 
         }
-    j++;
+        marketUL.appendChild(listItem);
     }
 }
 
