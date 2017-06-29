@@ -11,11 +11,10 @@
             src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    
-    
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRNZ6Acf-xdf9ORzYJ5vzmTwI6RPUqrRY">
-    </script>    
- 
+
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v0.3.0/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v0.3.0/mapquest.css"/>
+
 </head>
 <body onload="">
     <div class="container-fluid">
@@ -28,98 +27,12 @@
         <button class="btn btn-primary" id="search-submit">Search</button>
         <div id="map_canvas" style="width:500px; height:400px; float:left;"></div>
     </div>
-    
-    
+    <script src="farmersMarket.js"></script>
+    <script src="mapquest_client.js"></script>
     
     <script type="application/javascript">
-        var markets = [];
-        $("#search-submit").click(function () {
-           getResults($("#zip").val());
-        });
 
-        function testClick(zippy){
-            console.log(zippy);
-        }
-        
-        function getResults(zip) {
-        // or
-        // function getResults(lat, lng) {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            // submit a get request to the restful service zipSearch or locSearch.
-            url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip,
-            // or
-            // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
-            dataType: 'jsonp',
-            jsonpCallback: 'searchResultsHandler'
-        });
-        }
-        function getResultsLoc(lat, lng) {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            // submit a get request to the restful service zipSearch or locSearch.
-            url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
-            dataType: 'jsonp',
-            jsonpCallback: 'searchResultsHandler'
-        });
-        }
-        //iterate through the JSON result object.
-        function searchResultsHandler(searchResults) {
-            // console.table(searchResults);
-            // The model is an object with 2 attributes an id and a string that contains mileage and market name.
-            for (var key in searchResults) {
-                alert(key);
-                var results = searchResults[key];
-                for (var i = 0; i < results.length; i++) {
-                    console.log('Index:' + i);
-                    var result = results[i];
-                    for (var key in result) {
-                        //  I need to write a method to break off the mileage.
-                        if(key == 'marketname'){
-                            console.log(result[key]);
-                            //  Break Off the first part as distance
-                            var distDelim = result[key].search(/\./);
-                            console.log('. at ' + distDelim);
-                            var distance = parseFloat(result[key].substr(0, distDelim + 2));
-
-                            console.log('Distance = ' + distance);
-                        }
-
-
-
-
-                        console.log('Key: ' + key);
-                        console.log('Attribute: ' + result[key]);
-
-                    }
-                    console.log(result);
-                    markets.push(result);
-                }
-            }
-            console.log(markets);
-        }    
-
-        function getDetails(id) {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                // submit a get request to the restful service mktDetail.
-                url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
-                dataType: 'jsonp',
-                jsonpCallback: 'detailResultHandler'
-            });
-        }
-        //iterate through the JSON result object.
-        function detailResultHandler(detailResults) {
-            for (var key in detailResults) {
-                alert(key);
-                var results = detailResults[key];
-                alert(results['GoogleLink']);
-            }
-        }
-      
+        buildMap('map_canvas');
       
     </script>
     
