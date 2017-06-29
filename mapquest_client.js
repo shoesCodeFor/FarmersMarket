@@ -26,6 +26,14 @@
         });
     }
 
+    function geoByAddress(address){
+        fetch('http://www.mapquestapi.com/geocoding/v1/address?key=KEY&location=' + address).then(function ()
+        {
+            var mapCanvas = document.getElementById('mad-canvas');
+            mapCanvas.innerHTML = this.response;
+        }).catch(console.log('Bad Address'));
+    }
+
 
 
     console.log(apiKeys.ck);

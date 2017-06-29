@@ -45,7 +45,7 @@ function marketsFilter(json_array){
         // console.table(marketObject);
         for(let i = 0; i < marketObject.length; i++){
             var marketDetail = marketObject[i];
-            
+
             // console.table(marketDetail);
             for(key in marketDetail){
                 if(key == "marketname"){ // Then its really two objects in a String 'Distance Market Name'
