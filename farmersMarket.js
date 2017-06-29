@@ -25,7 +25,7 @@ function marketsByZip(zipCode){
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zipCode,
+        url: "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zipCode,
         dataType: "jsonp",
         jsonpCallback: "marketsFilter"
     });
@@ -35,7 +35,7 @@ function marketsByGPS(lat, lng){
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
-        url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
+        url: "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
         dataType: "jsonp",
         jsonpCallback: "marketsFilter"
     });
