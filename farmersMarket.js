@@ -40,7 +40,7 @@ function marketsByGPS(lat, lng){
 function marketsFilter(json_array){
     // We'll fire the marketDetails during the inner most loop
     for(var instance in json_array){
-        var marketHolder = {};
+        var j = 0;
         var marketObject = json_array[instance];
         // console.table(marketObject);
         for(let i = 0; i < marketObject.length; i++){
@@ -65,7 +65,7 @@ function marketsFilter(json_array){
             }
 
         }
-
+    j++;
     }
 }
 
