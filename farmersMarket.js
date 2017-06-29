@@ -9,6 +9,7 @@
 var markets = [];
 $("#search-submit").click(function () {
     marketsByZip($("#zip").val());
+    console.log(markets);
 });
 
 /**
@@ -39,16 +40,19 @@ function marketsByGPS(lat, lng){
 function marketsFilter(json_array){
     // We'll fire the marketDetails during the inner most loop
     for(var instance in json_array){
+        var marketHolder = {};
         var marketObject = json_array[instance];
-        console.table(marketObject);
+        // console.table(marketObject);
         for(let i = 0; i < marketObject.length; i++){
             var marketDetail = marketObject[i];
-            console.table(marketDetail);
+            
+            // console.table(marketDetail);
             for(key in marketDetail){
                 if(key == "marketname"){ // Then its really two objects in a String 'Distance Market Name'
                     // We'll need to take the distance and name as seperate strings
                     var delimPos = marketDetail[key].search(/\./);
                     var distInMI = parseFloat(marketDetail[key].substr(0, delimPos + 2));
+
                     var marketName = marketDetail[key].substr(delimPos + 3, -1);
                     console.log('Market Name: ' + marketName);
                     console.log(distInMI);
@@ -59,7 +63,9 @@ function marketsFilter(json_array){
                     console.log('Market ID: ' + marketID);
                 }
             }
+
         }
+
     }
 }
 
