@@ -82,7 +82,7 @@ function marketsByGPS(lat, lng){
 function marketsFilter(json_array){
     for(var instance in json_array){
         var marketsArray = json_array[instance];
-        for(var i = 0; i < marketArray.length; i++){
+        for(var i = 0; i < marketsArray.length; i++){
             var marketDetail = marketsArray[i];
             market_obj = new market();
             for(key in marketDetail){
