@@ -1,4 +1,39 @@
+/*
+    Basic CSS for FarmersMarket - most of the css is taken care of by Bootstrap 4
+*/
+
 #marketList{
     background: black;
     width: 100%;
+}
+
+#marketList h3{
+    color: aliceblue;
+    font-size: 1.5rem;
+    padding-top: 10px;
+}
+
+#map_canvas{
+    width: 85%;
+    height: 800px;
+    margin-left: 7.5%;
+}
+
+.map-wrap{
+    background-color: #292B2C;
+    background-image: url("/img/background.jpg");
+    width: 1191px;
+    height: 900px;
+    background-size: cover;
+
+}
+
+.simpleNav{
+    background-color: black;
+    padding-top: 25px;
+    color: white;
+}
+
+.user-ctls{
+    padding-top: 5px;
 }

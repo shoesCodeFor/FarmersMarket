@@ -6,20 +6,47 @@
  * @author: Schuyler Ankele
  */
 
-var markets = [];
-const newBullet = document.createElement('li');
-const marketUL = document.getElementById('marketDetails');
+/**
+ * Represents a single farmers market
+ * @constructor
+ */
+function market() {
+    var id;
+    var name;
+    var distance;
+    var address;
+}
+/**
+ * @constructor
+ * @param {int} id - used to trigger marketDetails
+ * @param {string} name - name of the market
+ * @param {float} distance - results are returned in an array of 10 listed by shortest distance
+ * @param {string} address - used for geocoding on the map
+ */
+function market(id, name, distance, address) {
+    this.id = id;
+    this.name = name;
+    this.distance = distance;
+    this.address = address;
+}
 
-$("#search-submit").click(function () {
-    marketsByZip($("#zip").val());
-    console.log(markets);
+const marketTable = document.getElementById('marketDetails');
+mktTblHeader();
+
+$(function () {
+    // Click listener for the 'Search by Zip' button
+    $("#search-submit").click(function () {
+        // Clear all the rows except 1
+        $('#marketDetails tr').slice(1).remove();
+        // Make the API call with the ZIP
+        marketsByZip($("#zip").val());
+    });
 });
-
 
 /**
  * @param zipCode = 5 digit US Postal Zip Code
+ * This method returns a JSON array of the markets
  */
-
 function marketsByZip(zipCode){
     // jQuery AJAX
     $.ajax({
@@ -27,10 +54,17 @@ function marketsByZip(zipCode){
         contentType: "application/json; charset=utf-8",
         url: "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zipCode,
         dataType: "jsonp",
-        jsonpCallback: "marketsFilter"
+        jsonpCallback: "marketsFilter",
+
     });
 }
 
+/**
+ * Market by GPS will return a single JSON object with details about a certain location
+ * @param lat
+ * @param lng
+ *
+ */
 function marketsByGPS(lat, lng){
     $.ajax({
         type: "GET",
@@ -41,45 +75,83 @@ function marketsByGPS(lat, lng){
     });
 }
 
+/**
+ * @function marketFilter - iterates and parses through the return JSON array from USDA API
+ * @param json_array
+ */
 function marketsFilter(json_array){
-    // We'll fire the marketDetails during the inner most loop
     for(var instance in json_array){
-        var j = 0;
-        var marketObject = json_array[instance];
-        var listItem = newBullet;
-        // console.table(marketObject);
-        for(let i = 0; i < marketObject.length; i++){
-            var marketDetail = marketObject[i];
-
-            // console.table(marketDetail);
+        var marketsArray = json_array[instance];
+        for(var i = 0; i < marketArray.length; i++){
+            var marketDetail = marketsArray[i];
+            market_obj = new market();
             for(key in marketDetail){
-                if(key == "marketname"){ // Then its really two objects in a String 'Distance Market Name'
-                    // We'll need to take the distance and name as seperate strings
-                    var delimPos = marketDetail[key].search(/\./);
-                    var distInMI = parseFloat(marketDetail[key].substr(0, delimPos + 2));
-
-                    var marketName = marketDetail[key].substr(delimPos + 3);
-                    console.log('Market Name: ' + marketName);
-                    console.log(distInMI);
-                    console.log(marketDetail[key]);
-                    listItem.innerHTML += ' Name: ' + marketName + '<br>Dist (mi):' + distInMI + '<br>';
+                if(key == "marketname"){
+                    // Then its really two objects in a String 'Distance Market Name'
+                    // We'll need to take the distance and name as separate strings
+                    delimPos = marketDetail[key].search(/\./);
+                    distInMI = parseFloat(marketDetail[key].substr(0, delimPos + 2));
+                    console.log('This is mileage' + distInMI)
+                    marketName = marketDetail[key].substr(delimPos + 3);
+                    market_obj.name = marketName;
+                    market_obj.distance = distInMI;
                 }
                 else{
+                    // Catch an error if it exists
+                    if(marketDetail[key] == 'Error'){
+                        console.log('Oh NOOOO!!!' + marketDetail[key]);
+                        alert('Please enter a valid 5 digit US Zip Code');
+                        return;
+                    }
                     var marketID = marketDetail[key];
-                    console.log('Market ID: ' + marketID);
-                    listItem.innerHTML += '<br>ID: ' + marketID + '<br>';
-
+                    console.log('Heres the id' + marketID);
+                    market_obj.id = marketID;
                 }
             }
-
+            buildRow(market_obj);
         }
-        marketUL.appendChild(listItem);
     }
 }
 
+/**
+ *  Build the header on our table.
+ */
+function mktTblHeader(){
+    var header = marketTable.createTHead();
+    th = header.insertRow(0);
+    id_th = th.insertCell(0);
+    id_th.innerHTML = 'ID';
+    name_th = th.insertCell(1);
+    name_th.innerHTML = 'Name';
+    dist_th = th.insertCell(2);
+    dist_th.innerHTML = 'Dist. in Miles';
+    find_h = th.insertCell(3);
+    find_h.innerHTML = 'Plot On Map';
+    marketTable.appendChild(th);
+}
 
+/**
+ * This function accepts a single market instance and appends a row to the table
+ * @param {obj} market_obj - is an instance of market()
+ */
+function buildRow(market_obj){
+    tr = document.createElement('tr');
+    _id = tr.insertCell(0);
+    _id.innerHTML = market_obj.id;
+    _name = tr.insertCell(1);
+    _name.innerHTML = market_obj.name;
+    _dist = tr.insertCell(2);
+    _dist.innerHTML = market_obj.distance;
+    _find = tr.insertCell(3);
+    _find.innerHTML = '<button class="btn btn-outline-info" onclick="marketDetails('+ market_obj.id +')">Find On Map</button>';
+    marketTable.appendChild(tr);
 
+}
 
+/**
+ *
+ * @param {int} id
+ */
 function marketDetails(id) {
     $.ajax({
         type: "GET",
@@ -90,6 +162,7 @@ function marketDetails(id) {
         jsonpCallback: 'detailsFilter'
     });
 }
+
 // Separate our market details
 function detailsFilter(detailResponse) {
     for (var key in detailResponse) {
@@ -101,3 +174,4 @@ function detailsFilter(detailResponse) {
         console.table(details);
     }
 }
+
