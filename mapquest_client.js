@@ -3,10 +3,11 @@
  * @link - https://developer.mapquest.com/documentation/mapquest-js/v0.3/
  */
 
-/**
+/*
  * Overly complicated for the Mapquest interview I am hoping to get
  * returns a JSON object to js objects
  */
+
 jQuery.extend({
     getValues: function(url) {
         var fetchedData = null;
@@ -23,7 +24,7 @@ jQuery.extend({
     }
 });
 
-const apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
+var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
 
 /**
  * @function {void} - returns a map centered on the
