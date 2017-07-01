@@ -26,7 +26,7 @@ jQuery.extend({
 const apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
 
 /**
- *
+ * @function {void} - returns a map centered on the
  */
 function initMap(){
     L.mapquest.key = apiKeys.ck; // Should be ck
