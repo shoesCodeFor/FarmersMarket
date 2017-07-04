@@ -130,8 +130,8 @@ function marketsFilter(json_array){
                     marketDetails(market_obj.id);
                 }
             }
-            markets.push(market_obj);
-            buildRow(market_obj);
+            markets.push(market_obj);  // This creates an array of market objects
+            buildRow(market_obj); // This populates the table with our results.
         }
     }
 
@@ -139,6 +139,7 @@ function marketsFilter(json_array){
 
 /**
  *  Build the header on our table.
+ *  todo : Remove id column
  */
 function mktTblHeader(){
     var header = marketTable.createTHead();

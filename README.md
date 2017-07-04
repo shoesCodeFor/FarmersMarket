@@ -3,6 +3,7 @@
 + Use the USDA API to fetch farmers market near the user (by 5 digit Zip Code or Lat,Lng GPS coordinates).
 + On a user event or receipt of fetch/AJAX request display the results in a table accesible to the user.
 + Populate the map with results or plot points.
++ Get Directions for the User to a selected location
 
 ### This is a general excercise for leveraging Map APIs.
 You can use Mapquest, Google or any other map API.

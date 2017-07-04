@@ -66,6 +66,15 @@ function mapByAddress(address){
 
 }
 
+function urlConverter(url){
+    var convertedURL = '';
+
+
+    return convertedURL;
+
+}
+
+
 
 
 
