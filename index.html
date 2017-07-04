@@ -16,20 +16,25 @@
 </head>
 <body onload="">
     <div class="container-fluid simpleNav">
-        <div class="row justify-content">
-            <div class="col col-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
                 <h1>Find Farmers Markets in your Area!</h1>
             </div>
 
-            <div class="col-6 col-md-4">
-                <form onsubmit="return false;" class="form-inline">
-                    <div class="input-group">
-                        <span class="input-group-addon">Zip Code</span>
-                        <input id="zip" name="zip-code" type="number" value="">
-                    </div>
+            <div class="col-md-4">
+                <form id="zipSearch" onsubmit="return false;" class="form-inline text-center">
+
+                    <input id="zip" name="zip-code" type="number" value="" placeholder="Zip">
+
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" id="search-submit">Search</button>
+                        <button type="button" class="btn btn-outline-success" id="search-submit">Search</button>
+
                     </div>
+                    <div id="locBtnWrapper" class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-info" id="geolocate">Find My Location</button>
+
+                    </div>
+
                 </form>
             </div>
 
@@ -42,6 +47,7 @@
                 <div id="map_canvas" style=""></div>
             </div>
             <div id="marketList" class="col-md-4">
+                <cite>Markets Provided by <span class="">the USDA API</span></cite>
                 <h3 class="text-center">Local Markets</h3>
                 <table id="marketDetails" class="table table-hover table-inverse">
 
@@ -58,7 +64,7 @@
     <script src="mapquest_client.js"></script>
     
     <script type="application/javascript">
-        initMap();
+        initMap()
     </script>
     
     

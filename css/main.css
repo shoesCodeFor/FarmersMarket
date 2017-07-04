@@ -34,11 +34,35 @@
     color: white;
 }
 
-.user-ctls{
-    padding-top: 5px;
-    padding-bottom: 10px;
+#zipSearch{
+    width: 100%;
+
 }
 
-.user-ctls form{
-    width: 100%;
+#marketList cite{
+    color: aliceblue;
+    text-align: center;
 }
+
+
+#zip{
+
+    width: 100px;
+    height: 37px;
+    border-radius: 7px;
+
+}
+#zip, #search-submit, #geolocate{
+    margin-left: 10px;
+    margin-top: 5px;
+}
+#geolocate::after{
+    content: "Powered by MapQuest";
+
+    margin: 5px;
+    color: aliceblue;
+    text-align: center;
+    font-size: .7em;
+
+}
+
