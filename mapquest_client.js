@@ -25,7 +25,8 @@ jQuery.extend({
 });
 
 var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
-
+var userLocation = [{lat:39.75, lng: -104.999472}];
+var userAddress = '';
 
 /**
  * @function {void} - returns a map centered on the
@@ -45,7 +46,7 @@ function initMap(){
 
 function findMyLocation(){
     // A default
-    var userLocation = [{lat:39.75, lng: -104.999472}];
+
     try{
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log(position.coords);
@@ -72,14 +73,14 @@ function findMyLocation(){
 
 function addressCallback(error, response){
     // Grab the address into a var
-    address = response.results[0].locations[0];
+    userAddress = response.results[0].locations[0];
     // Fly to the new location
-    gMap.flyTo(address.latLng);
+    gMap.flyTo(userAddress.latLng);
     // Make the Zip a 5 digit one
-    address.zip = address.postalCode.split("-")[0];
+    userAddress.zip = userAddress.postalCode.split("-")[0];
     // Let the flyTo finish
     setTimeout(function (){
-        marketsByZip(address.zip);
+        marketsByZip(userAddress.zip);
     }, 1000);
 }
 
@@ -106,13 +107,13 @@ function buildPopup(error, response) {
     else{alert(error)};
 }
 
-function urlConverter(url){
-    var convertedURL = url.split('?q=');
-    console.table(convertedURL);
-
-
-    return convertedURL;
-
+function getDirections(_address){
+    L.mapquest.key = apiKeys.ck;
+    var dir = L.mapquest.directions.route({
+       start: '7135 W 32nd Ave Wheat Ridge, CO',
+       end: _address
+    });
+    dir.addTo(gMap);
 }
 
 

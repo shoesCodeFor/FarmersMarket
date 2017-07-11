@@ -15,9 +15,10 @@ function market() {
     var name;
     var distance = -1.0;
     var address;
-    var url;
-    var products = [];
-    var hours = {};
+    var loc = [];
+    var products = '';
+    var hours = '';
+    var completed;
 
 }
 /**
@@ -27,25 +28,26 @@ function market() {
  * @param {float} distance - results are returned in an array of 10 listed by shortest distance
  * @param {string} address - used for geocoding on the map
  */
-function market(id, name, distance, address) {
+function market(id, name, distance) {
     this.id = id;
     this.name = name;
     this.distance = distance;
-    this.address = address;
+
 }
 
-function market(id, name, distance, address, url, products, hours) {
+function market(id, name, distance, address, loc, products, hours, completed) {
     this.id = id;
     this.name = name;
     this.distance = distance;
     this.address = address;
-    this.url = url;
+    this.loc = loc;
     this.products = products;
     this.hours = hours;
+    this.completed = completed;
 }
 
 var markets = [];
-
+var responseList = [];
 const marketTable = document.getElementById('marketDetails');
 mktTblHeader();
 
@@ -72,7 +74,7 @@ function marketsByZip(zipCode){
         contentType: "application/json; charset=utf-8",
         url: "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zipCode,
         dataType: "jsonp",
-        jsonpCallback: "marketsFilter",
+        jsonpCallback: "marketsFilter"
 
     });
 }
@@ -117,6 +119,14 @@ function marketsFilter(json_array){
                     market_obj.name = marketName;
                     market_obj.distance = distInMI;
                 }
+                else if(key == "id"){
+                    var marketID = marketDetail[key];
+                    console.log('Heres the id' + marketID);
+                    market_obj.id = marketID;
+                    market_obj.completed = false;
+                    // This is working
+
+                }
                 else{
                     // Catch an error if it exists
                     if(marketDetail[key] == 'Error'){
@@ -124,23 +134,17 @@ function marketsFilter(json_array){
                         alert('Please enter a valid 5 digit US Zip Code');
                         return;
                     }
-                    var marketID = marketDetail[key];
-                    console.log('Heres the id' + marketID);
-                    market_obj.id = marketID;
-                    // This is working
-
-                    marketDetails(market_obj.id);
-
                 }
             }
             markets.push(market_obj);  // This creates an array of market objects
             buildRow(market_obj); // This populates the table with our results.
-
+            // marketDetails(market_obj.id);
 
         }
     }
-
-
+    /*setTimeout(function () {
+        completeDetails();
+    }, 2500);*/
 }
 
 /**
@@ -166,7 +170,8 @@ function mktTblHeader(){
  * @param {obj} market_obj - is an instance of market()
  */
 function buildRow(market_obj){
-    tr = document.createElement('tr');
+    tr = document.createElement('tr')
+    tr.setAttribute('id', market_obj.id);
     _id = tr.insertCell(0);
     _id.innerHTML = market_obj.id;
     _name = tr.insertCell(1);
@@ -174,8 +179,11 @@ function buildRow(market_obj){
     _dist = tr.insertCell(2);
     _dist.innerHTML = market_obj.distance;
     _find = tr.insertCell(3);
-    _find.innerHTML = '<button class="btn btn-outline-info" onclick="marketDetails(' + market_obj.id + ')">Find On Map</button>';
+    _find.setAttribute('class', 'ctl-btns');
+    _find.innerHTML = '<button class="btn btn-outline-info" ' +
+        'onclick="marketDetails(' + market_obj.id + ')">Find On Map</button>';
     marketTable.appendChild(tr);
+
 
     // put back onclick="marketDetails('+ market_obj.id +')
 }
@@ -185,7 +193,6 @@ function buildRow(market_obj){
  * @param {int} id
  */
 function marketDetails(id) {
-
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
@@ -195,29 +202,119 @@ function marketDetails(id) {
         dataType: 'jsonp',
         jsonpCallback: 'detailsFilter',
         success: function (response) {
-            console.log(response);
+            console.log(response.marketdetails);
+            responseList.push(response.marketdetails);
         }
     });
-
 }
 
 // Separate our market details
+// Let's refactor this to find an object
 function detailsFilter(detailResponse) {
-    console.log('Object: ' + detailResponse);
+    console.log('We triggered an empty filter');
+    // console.log(detailResponse);
+    console.log(detailResponse.marketdetails);
+    // responseList.push(detailResponse.marketdetails);
+    for (var key in detailResponse) {
 
-    //console.log(detailResponse.marketdetails);
-    //for (var key in detailResponse) {
-        //console.log(id);
-        //console.log(key);
+        console.log(key);
         //alert(key);
-        //var details = detailResponse[key];
-        //console.log(details);
-        // console.log(details.Address);
-        // mapByAddress(details.Address);
-        //alert(details['GoogleLink']);
-        // console.table(detailResponse);
-        //console.log('The address is:  ' + details['address']);
+        var details = detailResponse[key];
+        console.log(details);
+        console.log(details.Address);
+        mapByAddress(details.Address);
+        // alert(details['GoogleLink']);
 
-    //}
+        console.table(detailResponse);
+        console.log('The address is:  ' + details['address']);
+
+        // Put this in the btn controls;
+        var searchStr = urlConverter(details.GoogleLink);
+        console.log(searchStr);
+        var posToFill = getMarketIndex(markets, searchStr[0]);
+        // Lets put all of this elements where they are supposed to go
+        var idValOfRow = markets[posToFill].id;
+        $('#' + idValOfRow + ' .ctl-btns').append('<br><button class="btn btn-outline-success" ' +
+            'onclick="getDirections(\'' + details.Address + '\')">Get Directions</button>');
+        markets[posToFill].address = details.Address;
+        markets[posToFill].loc = searchStr[1];
+        markets[posToFill].products = details.Products;
+        markets[posToFill].hours = details.Schedule;
+        markets[posToFill].completed = true;
+
+    }
 }
+
+function getMarketIndex(marketsList, srchName){
+    var elementPos = marketsList.map(function(x) {return x.name; }).indexOf(srchName);
+    var objectFound = marketsList[elementPos];
+    console.table(objectFound);
+    return elementPos;
+}
+
+/*********************
+ *
+ *  ####################
+ *  CREATE A BLACKLIST!!
+ *
+ *
+ *
+ */
+
+
+function completeDetails(){
+    var fullEntities = 0;
+    var index = 0;
+    var numToFill = markets.length;
+    var blackList = [];
+    while(fullEntities < numToFill){
+
+
+
+
+
+        // This loop will run to dump all values  that are received into the markets array
+
+
+        if (!(markets[index].completed)) {
+    console.log('This market is incomplete');
+    marketDetails(markets[index].id);
+}
+else {
+    console.log('This Market is complete:' + index);
+    console.log(markets[index]);
+    fullEntities++;
+    blackList.push(index);
+}
+            index++;
+        }
+
+
+
+}
+
+function urlConverter(url){
+    var firstBreak = url.split('(%22');
+    var secondBreak = firstBreak[1].split('%22)');
+    var convertedURL = secondBreak[0];
+    var cleanStr = convertedURL.split('+').join(' ');
+    var returnArr = [];
+    returnArr[0] = cleanStr;
+    var coordStr = url.split('?q=');
+    var coordEnd = coordStr[1].split('(%22');
+    var coordChars = coordEnd[0].split('%2C');
+    var lat = coordChars[0];
+    var lngRaw = coordChars[1].split('%20');
+    var lng = lngRaw[1];
+    console.log(lat);
+    console.log(lng);
+    var MapQuestURL = 'https://www.mapquest.com/search/results?query=' + lat + "%20" + lng;
+    returnArr[1] = [lat, lng];
+    //console.log(secondBreak[0]);
+    return returnArr;
+    // https://www.mapquest.com/search/results?query=39.769904%20-105.075
+    // http://maps.google.com/?q=39.7699040%2C%20-105.075…0(%22Four+Seasons+Farmers+and+Artisans+Market%22)
+}
+
+
 
