@@ -127,13 +127,19 @@ function marketsFilter(json_array){
                     var marketID = marketDetail[key];
                     console.log('Heres the id' + marketID);
                     market_obj.id = marketID;
+                    // This is working
+
                     marketDetails(market_obj.id);
+
                 }
             }
             markets.push(market_obj);  // This creates an array of market objects
             buildRow(market_obj); // This populates the table with our results.
+
+
         }
     }
+
 
 }
 
@@ -168,7 +174,7 @@ function buildRow(market_obj){
     _dist = tr.insertCell(2);
     _dist.innerHTML = market_obj.distance;
     _find = tr.insertCell(3);
-    _find.innerHTML = '<button class="btn btn-outline-info" onclick="getDirections(' + market_obj.id + ')">Find On Map</button>';
+    _find.innerHTML = '<button class="btn btn-outline-info" onclick="marketDetails(' + market_obj.id + ')">Find On Map</button>';
     marketTable.appendChild(tr);
 
     // put back onclick="marketDetails('+ market_obj.id +')
@@ -179,33 +185,39 @@ function buildRow(market_obj){
  * @param {int} id
  */
 function marketDetails(id) {
-    $(document).queue(function () {
 
     $.ajax({
         type: "GET",
         contentType: "application/json; charset=utf-8",
         async: false,
         // submit a get request to the restful service mktDetail.
-        url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
+        url: "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
         dataType: 'jsonp',
-        jsonpCallback: 'detailsFilter'
+        jsonpCallback: 'detailsFilter',
+        success: function (response) {
+            console.log(response);
+        }
     });
 
-});
 }
 
 // Separate our market details
 function detailsFilter(detailResponse) {
-    for (var key in detailResponse) {
+    console.log('Object: ' + detailResponse);
+
+    //console.log(detailResponse.marketdetails);
+    //for (var key in detailResponse) {
+        //console.log(id);
         //console.log(key);
         //alert(key);
-        var details = detailResponse[key];
-        console.log(details.Address);
+        //var details = detailResponse[key];
+        //console.log(details);
+        // console.log(details.Address);
         // mapByAddress(details.Address);
         //alert(details['GoogleLink']);
-        // console.table(details);
-        console.log('The address is:  ' + details['address']);
+        // console.table(detailResponse);
+        //console.log('The address is:  ' + details['address']);
 
-    }
+    //}
 }
 

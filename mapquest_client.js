@@ -33,7 +33,8 @@ var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
 function initMap(){
      // Should be ck
     L.mapquest.key = apiKeys.ck;
-    L.mapquest.map('map_canvas',
+    // The global map
+    gMap = L.mapquest.map('map_canvas',
         {
             center: [39.750307, -104.999472], // Center on Mapquest Denver Dev Office
             layers: L.mapquest.tileLayer('map'),
@@ -42,32 +43,72 @@ function initMap(){
 
 }
 
+function findMyLocation(){
+    // A default
+    var userLocation = [{lat:39.75, lng: -104.999472}];
+    try{
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log(position.coords);
+            userLocation[0] = position.coords.latitude;
+            userLocation[1] = position.coords.longitude;
+            L.mapquest.geocoding().reverse(userLocation, addressCallback);
+
+            var customIcon = L.mapquest.icons.circle({
+                primaryColor: '#3b5998',
+                draggable: true,
+                riseOnHove: true
+            });
+
+            var home = L.marker(userLocation, { icon: customIcon }).addTo(gMap);
+            home.bindPopup("You are here ").openPopup();
+        });
+
+    }
+    catch (e){
+        alert('We cannot find your location. \n Error:' + e);
+    }
+
+}
+
+function addressCallback(error, response){
+    // Grab the address into a var
+    address = response.results[0].locations[0];
+    // Fly to the new location
+    gMap.flyTo(address.latLng);
+    // Make the Zip a 5 digit one
+    address.zip = address.postalCode.split("-")[0];
+    // Let the flyTo finish
+    setTimeout(function (){
+        marketsByZip(address.zip);
+    }, 1000);
+}
+
     /**
  *
  * @param address
  */
 function mapByAddress(address){
 
-
+        L.mapquest.key = apiKeys.ck;
         L.mapquest.geocoding().geocode(address, console.log('called back'));
-
-        /**
-        function createMap(error, response) {
-            var location = response.results[0].locations[0];
-            var latLng = location.displayLatLng;
-            var map = L.mapquest.map('map_canvas', {
-                center: latLng,
-                layers: L.mapquest.tileLayer('map'),
-                zoom: 14
-            });
-        }
-         **/
 
 
 }
 
+function buildPopup(error, response) {
+    if(!error){
+        var location = response.results[0].locations[0];
+        var street = location.street;
+        var city = location.adminArea5;
+        var state = location.adminArea3;
+        popup.setContent(street + ', ' + city + ', ' + state);
+    }
+    else{alert(error)};
+}
+
 function urlConverter(url){
-    var convertedURL = '';
+    var convertedURL = url.split('?q=');
+    console.table(convertedURL);
 
 
     return convertedURL;
