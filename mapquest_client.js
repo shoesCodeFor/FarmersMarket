@@ -26,7 +26,7 @@ jQuery.extend({
 
 var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
 var userLocation = [{lat:39.75, lng: -104.999472}];
-var userAddress = '';
+var userAddress;
 
 /**
  * @function {void} - returns a map centered on the
@@ -109,11 +109,15 @@ function buildPopup(error, response) {
 
 function getDirections(_address){
     L.mapquest.key = apiKeys.ck;
-    var dir = L.mapquest.directions.route({
-       start: '7135 W 32nd Ave Wheat Ridge, CO',
+    L.mapquest.directions().route({
+       start: userAddress.street + ' ' + userAddress.adminArea5,
        end: _address
     });
-    dir.addTo(gMap);
+    // dir.addTo(gMap);
+    console.log(_address);
+    console.log(userAddress);
+
+
 }
 
 
