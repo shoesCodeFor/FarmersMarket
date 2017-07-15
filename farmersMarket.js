@@ -268,29 +268,19 @@ function completeDetails(){
     var numToFill = markets.length;
     var blackList = [];
     while(fullEntities < numToFill){
-
-
-
-
-
         // This loop will run to dump all values  that are received into the markets array
-
-
         if (!(markets[index].completed)) {
-    console.log('This market is incomplete');
-    marketDetails(markets[index].id);
-}
-else {
-    console.log('This Market is complete:' + index);
-    console.log(markets[index]);
-    fullEntities++;
-    blackList.push(index);
-}
-            index++;
+        console.log('This market is incomplete');
+        marketDetails(markets[index].id);
         }
-
-
-
+        else {
+        console.log('This Market is complete:' + index);
+        console.log(markets[index]);
+        fullEntities++;
+        blackList.push(index);
+        }
+    index++;
+    }
 }
 
 function urlConverter(url){
@@ -312,8 +302,7 @@ function urlConverter(url){
     returnArr[1] = [lat, lng];
     //console.log(secondBreak[0]);
     return returnArr;
-    // https://www.mapquest.com/search/results?query=39.769904%20-105.075
-    // http://maps.google.com/?q=39.7699040%2C%20-105.075…0(%22Four+Seasons+Farmers+and+Artisans+Market%22)
+    
 }
 
 

@@ -3,11 +3,7 @@
  * @link - https://developer.mapquest.com/documentation/mapquest-js/v0.3/
  */
 
-/*
- * Overly complicated for the Mapquest interview I am hoping to get
- * returns a JSON object to js objects
- */
-
+// Static function to extend jQuery ajax and pull data into a var
 jQuery.extend({
     getValues: function(url) {
         var fetchedData = null;
@@ -25,25 +21,27 @@ jQuery.extend({
 });
 
 var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
+
+L.mapquest.key = apiKeys.ck;
 var userLocation = [{lat:39.75, lng: -104.999472}];
 var userAddress;
 
 /**
- * @function {void} - returns a map centered on the
+ * @function {void} - returns a map into a global var centered on the specified GPS
+ *
  */
-function initMap(){
-     // Should be ck
-    L.mapquest.key = apiKeys.ck;
-    // The global map
+function initMap() {
     gMap = L.mapquest.map('map_canvas',
         {
             center: [39.750307, -104.999472], // Center on Mapquest Denver Dev Office
             layers: L.mapquest.tileLayer('map'),
             zoom: 14
         });
-
 }
 
+/**
+ * @function {void} - this will take the user locale and plot it on the map
+ */
 function findMyLocation(){
     // A default
 
@@ -57,43 +55,43 @@ function findMyLocation(){
             var customIcon = L.mapquest.icons.circle({
                 primaryColor: '#3b5998',
                 draggable: true,
-                riseOnHove: true
+                riseOnHover: true
             });
 
             var home = L.marker(userLocation, { icon: customIcon }).addTo(gMap);
             home.bindPopup("You are here ").openPopup();
         });
-
     }
     catch (e){
         alert('We cannot find your location. \n Error:' + e);
     }
-
 }
 
 function addressCallback(error, response){
     // Grab the address into a var
-    userAddress = response.results[0].locations[0];
-    // Fly to the new location
-    gMap.flyTo(userAddress.latLng);
-    // Make the Zip a 5 digit one
-    userAddress.zip = userAddress.postalCode.split("-")[0];
-    // Let the flyTo finish
-    setTimeout(function (){
-        marketsByZip(userAddress.zip);
-    }, 1000);
+    try{
+        userAddress = response.results[0].locations[0];
+        // Fly to the new location
+        gMap.flyTo(userAddress.latLng);
+        // Make the Zip a 5 digit one
+        userAddress.zip = userAddress.postalCode.split("-")[0];
+        // Let the flyTo finish
+        setTimeout(function (){
+            marketsByZip(userAddress.zip);
+        }, 500);
+    }
+    catch (error) {
+        alert(error);
+    }
 }
 
-    /**
+/**
  *
  * @param address
  */
 function mapByAddress(address){
-
-        L.mapquest.key = apiKeys.ck;
-        L.mapquest.geocoding().geocode(address, console.log('called back'));
-
-
+    L.mapquest.key = apiKeys.ck;
+    L.mapquest.geocoding().geocode(address, console.log('called back'));
 }
 
 function buildPopup(error, response) {
