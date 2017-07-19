@@ -4,6 +4,9 @@
     Author: Schuyler Ankele
 
 */
+.app-title{
+    font-family: 'Permanent Marker', cursive;
+}
 
 #marketList{
     background: black;

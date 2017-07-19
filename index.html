@@ -12,13 +12,14 @@
     <script src="https://api.mqcdn.com/sdk/mapquest-js/v0.3.0/mapquest.js"></script>
     <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v0.3.0/mapquest.css"/>
     <link type="text/css" rel="stylesheet" href="css/main.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
     <script src="mapquest_client.js"></script>
 </head>
 <body onload="">
     <div class="container-fluid simpleNav">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <h1>Find Farmers Markets in your Area!</h1>
+                <h1 class="app-title">Find Farmers Markets in your Area!</h1>
             </div>
 
             <div class="col-md-4">
@@ -48,7 +49,9 @@
                 <div id="map_canvas" style=""></div>
             </div>
             <div id="marketList" class="col-md-4">
-                <cite>Markets Provided by <span class="">the USDA API</span></cite>
+                <p class="text-center">
+                    <cite>Markets Provided by <span class="">the USDA API</span></cite>
+                </p>
                 <h3 class="text-center">Local Markets</h3>
                 <table id="marketDetails" class="table table-hover table-inverse">
 
@@ -70,10 +73,14 @@
     
     <footer>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <p>Designed by Schuyler Ankele<br>
-                    Farmers Market API provided by the USDA<br>
-                    Beatutiful Maps by MapQuest
+                    <a href="https://search.ams.usda.gov/farmersmarkets/v1/svcdesc.html">
+                        Farmers Market API provided by the USDA
+                    </a><br>
+                    <a href="https://developer.mapquest.com/documentation/">
+                        Beatutiful Maps by MapQuest
+                    </a>
                 </p>
             </div>
         </div>
