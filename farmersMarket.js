@@ -13,12 +13,12 @@
 function market() {
     var id = -1;
     var name;
-    var distance = -1.0;
+    var distance = -1.0; // First Sentinel value
     var address;
     var loc = [];
     var products = '';
     var hours = '';
-    var completed;
+    var completed; // Bool to notate whether all the data for this location has been pulled
 
 }
 /**
@@ -302,7 +302,7 @@ function urlConverter(url){
     returnArr[1] = [lat, lng];
     //console.log(secondBreak[0]);
     return returnArr;
-    
+
 }
 
 
