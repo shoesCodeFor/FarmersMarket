@@ -42,7 +42,7 @@ function initMap() {
 /**
  * @function {void} - this will take the user locale and plot it on the map
  */
-function findMyLocation(){
+const findMyLocation = function (){
     // A default
 
     try{
@@ -65,7 +65,7 @@ function findMyLocation(){
     catch (e){
         alert('We cannot find your location. \n Error:' + e);
     }
-}
+};
 
 function addressCallback(error, response){
     // Grab the address into a var
