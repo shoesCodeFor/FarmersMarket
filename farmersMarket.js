@@ -180,7 +180,7 @@ function buildRow(market_obj){
     _dist.innerHTML = market_obj.distance;
     _find = tr.insertCell(3);
     _find.setAttribute('class', 'ctl-btns');
-    _find.innerHTML = '<button class="btn btn-outline-info" ' +
+    _find.innerHTML = '<button class="btn btn-outline-info find-button" ' +
         'onclick="marketDetails(' + market_obj.id + ')">Find On Map</button>';
     marketTable.appendChild(tr);
 
@@ -257,7 +257,7 @@ function getMarketIndex(marketsList, srchName){
  *  ####################
  *  CREATE A BLACKLIST!!
  *
- *
+ *  this loop should fill the markets array with all pertinent details
  *
  */
 

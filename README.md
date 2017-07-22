@@ -6,7 +6,7 @@
 + Get Directions for the User to a selected location
 
 ### This is a general excercise for leveraging Map APIs.
-You can use Mapquest, Google or any other map API.
+I am using MapQuest but you can use any Map based API
 
 Sources: 
 

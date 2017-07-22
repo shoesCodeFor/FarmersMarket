@@ -1,4 +1,4 @@
-/**
+/*
  * mapquest_client.js is a simple API Client using MapQuest.js based n their documentation -
  * @link - https://developer.mapquest.com/documentation/mapquest-js/v0.3/
  */

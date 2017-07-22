@@ -8,6 +8,12 @@
     font-family: 'Permanent Marker', cursive;
 }
 
+.find-button{
+    margin-bottom: 10px;
+}
+
+
+
 #marketList{
     background: black;
     width: 100%;
