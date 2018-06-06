@@ -23,6 +23,7 @@ jQuery.extend({
 var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
 
 L.mapquest.key = apiKeys.ck;
+L.mapquest.open = true;
 var userLocation = [{lat:39.75, lng: -104.999472}];
 var userAddress;
 
@@ -92,6 +93,19 @@ function addressCallback(error, response){
 function mapByAddress(address){
     L.mapquest.key = apiKeys.ck;
     L.mapquest.geocoding().geocode(address, console.log('called back'));
+}
+
+
+function openGeocoding(address) {
+   
+    var openEndpoint = "http://www.mapquestapi.com/geocoding/v1/address?";
+    openEndpoint+="key=" + apiKeys.ck + '&location=' + address;
+    //var geoResult = $.getValues(openEndpoint);
+    fetch(openEndpoint).then(function(response){
+        console.log(response.text());
+    });
+    // console.log(geoResult);
+    
 }
 
 function buildPopup(error, response) {
