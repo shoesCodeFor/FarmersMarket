@@ -32,3 +32,17 @@ const findMyLocation = function (){
         alert('We cannot find your location. \n Error:' + e);
     }
 };
+
+const fiveBoxGeocode = function (street = '', city = '', state = '', postalCode = '', country = ''){
+    let locationObj = {
+        // In the location object all fields are optional, but must be entered as blank vals if not used
+        street: street,
+        city: city,
+        state: state,
+        postalCode: postalCode,
+        country: country // Must be 2-digit ISO
+    };
+    L.mapquest.geocoder.geocode(locationObj, function (response) {return response});
+
+};
+
