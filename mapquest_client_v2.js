@@ -19,7 +19,9 @@ const initMap = function (center = [0,0]) {
         });
 };
 
-
+/**
+ * Use the browser API to find a user's current location
+ */
 const findMyLocation = function (){
     try{
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -33,6 +35,12 @@ const findMyLocation = function (){
     }
 };
 
+const singleLineGeo = function (searchStr = ''){
+    // Need to test what this does with errors
+    console.log('Geocoding ' + searchStr);
+    L.mapquest.geocoder.geocode(searchStr, function (response) {return response});
+};
+
 const fiveBoxGeocode = function (street = '', city = '', state = '', postalCode = '', country = ''){
     let locationObj = {
         // In the location object all fields are optional, but must be entered as blank vals if not used
@@ -43,6 +51,13 @@ const fiveBoxGeocode = function (street = '', city = '', state = '', postalCode 
         country: country // Must be 2-digit ISO
     };
     L.mapquest.geocoder.geocode(locationObj, function (response) {return response});
+
+};
+
+    // Build function to batch geocode multiple locations and assign to ID
+const batchGeo = function(arrayOfLocs){
+    console.log('Batch Geocoding the following: ');
+    console.log(arrayOfLocs);
 
 };
 
