@@ -189,7 +189,7 @@ function buildRow(market_obj){
 }
 
 /**
- *
+ * Use this once you have an ID from search
  * @param {int} id
  */
 function marketDetails(id) {
@@ -245,6 +245,7 @@ function detailsFilter(detailResponse) {
     }
 }
 
+// Search function to find market by name
 function getMarketIndex(marketsList, srchName){
     var elementPos = marketsList.map(function(x) {return x.name; }).indexOf(srchName);
     var objectFound = marketsList[elementPos];
