@@ -20,7 +20,7 @@ jQuery.extend({
     }
 });
 
-var apiKeys = VXLcMs4sGBfYpLAckWsEQtYsqbvfWcGA;
+var apiKeys = 'VXLcMs4sGBfYpLAckWsEQtYsqbvfWcGA';
 
 L.mapquest.key = apiKeys.ck;
 L.mapquest.open = true;
