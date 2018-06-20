@@ -20,7 +20,7 @@ jQuery.extend({
     }
 });
 
-var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
+var apiKeys = 'VXLcMs4sGBfYpLAckWsEQtYsqbvfWcGA';
 
 L.mapquest.key = apiKeys.ck;
 L.mapquest.open = true;
