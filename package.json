@@ -1,0 +1,22 @@
+{
+  "name": "farmersmarket",
+  "version": "1.0.0",
+  "description": "A Simple Web App to find Farmers Markets in your area",
+  "main": "farmersMarket.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shoesCodeFor/FarmersMarket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shoesCodeFor/FarmersMarket/issues"
+  },
+  "homepage": "https://github.com/shoesCodeFor/FarmersMarket#readme"
+}
