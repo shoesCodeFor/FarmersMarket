@@ -5,7 +5,6 @@
  */
 
 // Init Global Vars
-
 L.mapquest.key = apiKeys.ck;
 L.mapquest.open = true;
 var gMap;
@@ -61,3 +60,9 @@ const batchGeo = function(arrayOfLocs){
 
 };
 
+module.exports = {
+    findMyLocation: findMyLocation,
+    singleLineGeo: singleLineGeo,
+    fiveBoxGeocode: fiveBoxGeocode,
+    batchGeo: batchGeo
+}
