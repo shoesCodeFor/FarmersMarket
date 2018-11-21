@@ -1,5 +1,6 @@
-
 .idea/FarmersMarket.iml
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+
+node_modules/
