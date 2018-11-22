@@ -1,4 +1,4 @@
-const chai, expect = require('chai');
+const expect = require('chai').expect;
 const mocha = require('mocha');
 const MQ_Client = require('../MapQuest_Client_V2');
 
