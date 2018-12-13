@@ -1,3 +1,5 @@
+## Note: We're moving to OpenStreetMaps
+
 ## Farmers market is a basic web-app building excercise
 ### Tasks
 + Use the USDA API to fetch farmers market near the user (by 5 digit Zip Code or Lat,Lng GPS coordinates).
