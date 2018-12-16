@@ -1,4 +1,4 @@
-/**
+/*
  * mapquest_client.js is a simple API Client using MapQuest.js based n their documentation -
  * @link - https://developer.mapquest.com/documentation/mapquest-js/v0.3/
  */
@@ -20,9 +20,10 @@ jQuery.extend({
     }
 });
 
-var apiKeys = $.getValues("http://busybeetech.x10host.com/mapquest/index.php");
+var apiKeys = 'VXLcMs4sGBfYpLAckWsEQtYsqbvfWcGA';
 
 L.mapquest.key = apiKeys.ck;
+L.mapquest.open = true;
 var userLocation = [{lat:39.75, lng: -104.999472}];
 var userAddress;
 
@@ -42,7 +43,7 @@ function initMap() {
 /**
  * @function {void} - this will take the user locale and plot it on the map
  */
-function findMyLocation(){
+const findMyLocation = function (){
     // A default
 
     try{
@@ -65,7 +66,7 @@ function findMyLocation(){
     catch (e){
         alert('We cannot find your location. \n Error:' + e);
     }
-}
+};
 
 function addressCallback(error, response){
     // Grab the address into a var
@@ -92,6 +93,19 @@ function addressCallback(error, response){
 function mapByAddress(address){
     L.mapquest.key = apiKeys.ck;
     L.mapquest.geocoding().geocode(address, console.log('called back'));
+}
+
+
+function openGeocoding(address) {
+   
+    var openEndpoint = "http://www.mapquestapi.com/geocoding/v1/address?";
+    openEndpoint+="key=" + apiKeys.ck + '&location=' + address;
+    //var geoResult = $.getValues(openEndpoint);
+    fetch(openEndpoint).then(function(response){
+        console.log(response.text());
+    });
+    // console.log(geoResult);
+    
 }
 
 function buildPopup(error, response) {

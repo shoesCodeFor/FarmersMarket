@@ -1,3 +1,5 @@
+## Note: We're moving to OpenStreetMaps
+
 ## Farmers market is a basic web-app building excercise
 ### Tasks
 + Use the USDA API to fetch farmers market near the user (by 5 digit Zip Code or Lat,Lng GPS coordinates).
@@ -6,7 +8,7 @@
 + Get Directions for the User to a selected location
 
 ### This is a general excercise for leveraging Map APIs.
-You can use Mapquest, Google or any other map API.
+I am using MapQuest but you can use any Map based API
 
 Sources: 
 

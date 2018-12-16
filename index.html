@@ -1,24 +1,30 @@
 <!doctype html>
 <html>
 <head>
+    <!--
+        Welcome to the Farmers Market
+
+        This is a general HTML template with Bootstrap 4
+        All logic is processed in the JS files.
+
+    -->
 <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <title>Farmers Markets</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-    <script src="https://api.mqcdn.com/sdk/mapquest-js/v0.3.0/mapquest.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v0.3.0/mapquest.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+
+    <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.1/mapquest.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.1/mapquest.css"/>
     <link type="text/css" rel="stylesheet" href="css/main.css"/>
-    <script src="mapquest_client.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
 </head>
 <body onload="">
     <div class="container-fluid simpleNav">
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <h1>Find Farmers Markets in your Area!</h1>
+                <h1 class="app-title">Find Farmers Markets in your Area!</h1>
             </div>
 
             <div class="col-md-4">
@@ -48,7 +54,9 @@
                 <div id="map_canvas" style=""></div>
             </div>
             <div id="marketList" class="col-md-4">
-                <cite>Markets Provided by <span class="">the USDA API</span></cite>
+                <p class="text-center">
+                    <cite>Markets Provided by <span class="">the USDA API</span></cite>
+                </p>
                 <h3 class="text-center">Local Markets</h3>
                 <table id="marketDetails" class="table table-hover table-inverse">
 
@@ -70,14 +78,19 @@
     
     <footer>
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 text-center">
                 <p>Designed by Schuyler Ankele<br>
-                    Farmers Market API provided by the USDA<br>
-                    Beatutiful Maps by MapQuest
+                    <a href="https://search.ams.usda.gov/farmersmarkets/v1/svcdesc.html">
+                        Farmers Market API provided by the USDA
+                    </a><br>
+                    <a href="https://developer.mapquest.com/documentation/">
+                        Beatutiful Maps by MapQuest
+                    </a>
                 </p>
             </div>
         </div>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     </footer>
 </body>
 

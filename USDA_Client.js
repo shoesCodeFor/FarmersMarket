@@ -149,7 +149,6 @@ function marketsFilter(json_array){
 
 /**
  *  Build the header on our table.
- *  todo : Remove id column
  */
 function mktTblHeader(){
     var header = marketTable.createTHead();

@@ -4,6 +4,15 @@
     Author: Schuyler Ankele
 
 */
+.app-title{
+    font-family: 'Permanent Marker', cursive;
+}
+
+.find-button{
+    margin-bottom: 10px;
+}
+
+
 
 #marketList{
     background: black;
@@ -18,7 +27,7 @@
 
 #map_canvas{
     width: 85%;
-    height: 800px;
+    height: 600px;
     margin-left: 7.5%;
 }
 
