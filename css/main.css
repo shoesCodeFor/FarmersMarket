@@ -4,6 +4,10 @@
     Author: Schuyler Ankele
 
 */
+body{
+ color:white;   
+}
+
 .app-title{
     font-family: 'Permanent Marker', cursive;
 }
