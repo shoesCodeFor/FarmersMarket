@@ -5,7 +5,7 @@
  */
 
 // Init Global Vars
-L.mapquest.key = LGPoPM58dIK7wqxOTANGqNItYbGxwuAv;
+L.mapquest.key = 'LGPoPM58dIK7wqxOTANGqNItYbGxwuAv';
 L.mapquest.open = true;
 var gMap;
 
