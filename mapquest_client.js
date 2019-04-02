@@ -22,7 +22,7 @@ jQuery.extend({
 
 var apiKeys = 'VXLcMs4sGBfYpLAckWsEQtYsqbvfWcGA';
 
-L.mapquest.key = apiKeys.ck;
+L.mapquest.key = apiKeys;
 L.mapquest.open = true;
 var userLocation = [{lat:39.75, lng: -104.999472}];
 var userAddress;
